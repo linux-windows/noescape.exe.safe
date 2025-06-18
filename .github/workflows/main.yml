@@ -12,10 +12,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup Visual Studio environment
+      - name: Setup Visual Studio Build Tools
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Compile with cl.exe
         shell: cmd
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64
+          call "%VSINSTALLDIR%VC\Auxiliary\Build\vcvarsall.bat" x64
           cl esc_trigger.cpp /Fe:esc_trigger.exe
 
       - name: Upload executable artifact
