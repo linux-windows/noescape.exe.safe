@@ -1,41 +1,25 @@
-name: Build NOESCAPE EXE
+name: Build NOESCAPE
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Compile ESC Trigger
-      run: |
-        cl esc_trigger.cpp /Fe:esc_trigger.exe
+      - name: Setup Visual Studio environment
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x64
+          cl esc_trigger.cpp /Fe:esc_trigger.exe
 
-    - name: Prepare SED File
-      run: |
-        echo > noescape.sed [
-        echo ] >> noescape.sed
-        echo .CreateNewPackage=1 >> noescape.sed
-        echo .PackagePurpose=InstallApp >> noescape.sed
-        echo .ShowInstallProgramWindow=1 >> noescape.sed
-        echo .HideExtractAnimation=1 >> noescape.sed
-        echo .InstallPrompt=%COMSPEC% /c start.bat >> noescape.sed
-        echo .PostInstallCmd=%COMSPEC% /c start.bat >> noescape.sed
-        echo .TargetName=NOESCAPE.exe >> noescape.sed
-        echo .SourceFiles=SourceFiles >> noescape.sed
-        echo [SourceFiles] >> noescape.sed
-        echo SourceFiles0=. >> noescape.sed
-        echo [SourceFiles0] >> noescape.sed
-        echo .Files=start.bat,spill.vbs,fake_login.html,recover.vbs,esc_trigger.exe,startup.wav,open_me.txt >> noescape.sed
-
-    - name: Bundle with IExpress
-      run: |
-        iexpress /n /q noescape.sed
-
-    - name: Upload Final EXE
-      uses: actions/upload-artifact@v4
-      with:
-        name: NOESCAPE
-        path: NOESCAPE.exe
+      - name: Upload executable artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NOESCAPE-exe
+          path: esc_trigger.exe
