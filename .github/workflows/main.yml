@@ -1,4 +1,4 @@
-name: Build NOESCAPE
+name: Build NOESCAPE with g++
 
 on:
   push:
@@ -10,16 +10,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout source
+        uses: actions/checkout@v3
 
-      - name: Setup Visual Studio Build Tools
-        uses: microsoft/setup-msbuild@v1.1
-
-      - name: Compile with cl.exe
-        shell: cmd
+      - name: Compile esc_trigger.cpp
         run: |
-          call "%VSINSTALLDIR%VC\Auxiliary\Build\vcvarsall.bat" x64
-          cl esc_trigger.cpp /Fe:esc_trigger.exe
+          g++ esc_trigger.cpp -o esc_trigger.exe
 
       - name: Upload executable artifact
         uses: actions/upload-artifact@v4
