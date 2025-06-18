@@ -1,7 +1,9 @@
 # NOESCAPE.EXE - Interactive Prank
 
 **NOESCAPE.EXE** is a harmless prank program designed for Windows 7 (I honestly don't knowif it works for anything else) that simulates a fake system crash and creates a spooky, game-like experience on your desktop.
-
+---
+## How to download
+Extract the zip file. Run the .exe file.
 ---
 
 ## What It Does
